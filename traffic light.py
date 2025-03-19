@@ -11,39 +11,25 @@ rr = PWMLED(13)
 rg = PWMLED(19)
 rb = PWMLED(26)
 
-def stop_light(_stop_light):
-    print(_stop_light)
-
-def traffic(traffic_light):
-    if(traffic_light['redLed']) == 1:
+def traffic(rfd):
+    if(rfd[0]['redLed']) == 1:
         redLed.on()
     else:
         redLed.off()
-    if(traffic_light['yellowLed']) == 1:
+    if(rfd[0]['yellowLed']) == 1:
         yellowLed.on()
     else:
         yellowLed.off()
-    if(traffic_light['greenLed']) == 1:
+    if(rfd[0]['greenLed']) == 1:
         greenLed.on()
     else:
         greenLed.off()
 
-def rgb (eyedictionary):
-    pass
-    
-def eyes (left, right):
-    lr.value = (left['red'])
-    lg.value = (left['green'])
-    lb.value = (left['blue'])
-    rr.value = (right['red'])
-    rg.value = (right['green'])
-    rb.value = (right['blue'])
-
-def main():
-    print("Welcome To The STEAM Clown Makey Bot")
-    traffic_light = {'redLed' : 0, 'yellowLed' : 0, 'greenLed' : 0}
+def get_robot_feature_data():
     lefteye = {'red':0,'green':0,'blue':0}
     righteye = {'red':0,'green':0,'blue':0}
+    traffic_light = {'redLed' : 0, 'yellowLed' : 0, 'greenLed' : 0}
+    # servo
     trafficflag = False
     while trafficflag == False:
         try:
@@ -62,7 +48,6 @@ def main():
                 c = 0
                 for i in traffic_light:
                     traffic_light[i] = int(xcool[c])
-                    print(i)
                     c += 1
             else:
                 print("not between 0-7")
@@ -94,7 +79,19 @@ def main():
                     righteyeflag = True
                 else:
                     print("not in range")
+    rfd = [traffic_light, lefteye, righteye]
+    return(rfd)
+    
+def eyes (rfd):
+    lr.value = (rfd[1]['red'])
+    lg.value = (rfd[1]['green'])
+    lb.value = (rfd[1]['blue'])
+    rr.value = (rfd[2]['red'])
+    rg.value = (rfd[2]['green'])
+    rb.value = (rfd[2]['blue'])
 
-    traffic(traffic_light)
-    eyes(lefteye, righteye)
+def main():
+    data = (get_robot_feature_data())
+    traffic(data)
+    eyes(data)
 main()
