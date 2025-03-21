@@ -51,34 +51,38 @@ def get_robot_feature_data():
                     c += 1
             else:
                 print("not between 0-7")
-    for i in lefteye:
-        lefteyeflag = False
-        print("changing the left eye",i,"value")
-        while lefteyeflag == False:
-            try:
-                color = float(input("enter a decimal between 0 and 1, including both: "))
-            except:
-                print("NAN")
+                
+    lefteyeflag = False
+    print("changing the rgb value of the left eye")
+    while lefteyeflag == False:
+        color = input("give a hex code: #").upper()
+        print(color)
+        if(len(color) != 6): print("not a valid hex code")
+        else:
+            try: ishex = int(color,16)
+            except: ("not a valid hex code")
             else:
-                if(color >= 0 and color <= 1):
-                    lefteye[i] = color
-                    lefteyeflag = True
-                else:
-                    print("not in range")
-    for i in righteye:
-        righteyeflag = False
-        print("changing the right eye",i,"value")
-        while righteyeflag == False:
-            try:
-                color = float(input("enter a decimal between 0 and 1, including both: "))
-            except:
-                print("NAN")
+                lefteyeflag = True
+                lefteye['red'] = int(color[0:2],16) / 255
+                lefteye['green'] = int(color[2:4],16) / 255
+                lefteye['blue'] = int(color[4:],16) / 255
+                print (lefteye)
+    print("changing the rgb value of the right eye")
+    
+    righteyeflag = False
+    while righteyeflag == False:
+        color = input("give a hex code: #").upper()
+        print(color)
+        if(len(color) != 6): print("not a valid hex code")
+        else:
+            try: ishex = int(color,16)
+            except: ("not a valid hex code")
             else:
-                if(color >= 0 and color <= 1):
-                    righteye[i] = color
-                    righteyeflag = True
-                else:
-                    print("not in range")
+                righteyeflag = True
+                righteye['red'] = int(color[0:2],16) / 255
+                righteye['green'] = int(color[2:4],16) / 255
+                righteye['blue'] = int(color[4:],16) / 255
+                print (righteye)
     rfd = [traffic_light, lefteye, righteye]
     return(rfd)
     
@@ -95,3 +99,4 @@ def main():
     traffic(data)
     eyes(data)
 main()
+
