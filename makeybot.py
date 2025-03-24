@@ -1,6 +1,9 @@
 from gpiozero import LED
 from gpiozero import PWMLED
 import time
+from gpiozero import Servo
+from gpiozero import AngularServo
+from time import sleep
 redLed = LED(2)
 yellowLed = LED(3)
 greenLed = LED(18)
@@ -10,7 +13,11 @@ lb = PWMLED(22)
 rr = PWMLED(13)
 rg = PWMLED(19)
 rb = PWMLED(26)
-
+myCorrection=0.45
+maxPW=(2.0+myCorrection)/1000
+minPW=(0.75-myCorrection)/1000
+ 
+servo = AngularServo(16,min_pulse_width=minPW,max_pulse_width=maxPW)
 def traffic(rfd):
     if(rfd[0]['redLed']) == 1:
         redLed.on()
@@ -60,10 +67,10 @@ def get_robot_feature_data():
         if(len(color) != 6): print("not a valid hex code")
         else:
             try: ishex = int(color,16)
-            except: ("not a valid hex code")
+            except: print ("not a valid hex code")
             else:
                 lefteyeflag = True
-                lefteye['red'] = int(color[0:2],16) / 255
+                lefteye['red'] = int(color[0:2],16) / 255 * 0.75
                 lefteye['green'] = int(color[2:4],16) / 255
                 lefteye['blue'] = int(color[4:],16) / 255
                 print (lefteye)
@@ -76,10 +83,10 @@ def get_robot_feature_data():
         if(len(color) != 6): print("not a valid hex code")
         else:
             try: ishex = int(color,16)
-            except: ("not a valid hex code")
+            except: print ("not a valid hex code")
             else:
                 righteyeflag = True
-                righteye['red'] = int(color[0:2],16) / 255
+                righteye['red'] = int(color[0:2],16) / 255 * 0.75
                 righteye['green'] = int(color[2:4],16) / 255
                 righteye['blue'] = int(color[4:],16) / 255
                 print (righteye)
@@ -98,5 +105,9 @@ def main():
     data = (get_robot_feature_data())
     traffic(data)
     eyes(data)
+    while True:
+        servo.angle = 90
+        sleep(1)
+        servo.angle = -90
+        sleep(1)
 main()
-
