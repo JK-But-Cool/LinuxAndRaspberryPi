@@ -106,7 +106,6 @@ def wave():
         sleep(wave_delay)
         servo.angle = -90
         sleep(wave_delay)
-        test = Timer(wave_delay, code to run)
 def main():
     data = (get_robot_feature_data())
     traffic(data)
