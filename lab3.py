@@ -18,7 +18,7 @@ Challenge #1 & #2
 print('''Answer to Challenges
 -------------------------------------------------''')
 # -----------------------------
-fhand = open('text-file-matrix.txt')
+fhand = open('text-file-mail-very-short.txt')
 john = 0
 for line in fhand:
     john += 1
