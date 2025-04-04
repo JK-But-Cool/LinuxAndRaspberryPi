@@ -17,15 +17,17 @@ Use the String Methods to find stuff
     - Same Hint an 3
       
       ''')
-xfile = open('text-file-mail-very-short.txt')
+import re
+xfile = open('text-file-mail-long.txt')
 linenum = 0
 fromlines = []
 emails = []
 for line in xfile:
     line=line.rstrip()
     linenum += 1
-    if line.startswith("From: ") or line.startswith("To: "):
-        print(line)
+    #if line.startswith("From: ") or line.startswith("To: "):
+        #print(line)
+    remove = ["<",">",";",":","(",")"]
     if "@" in line:
         line = line.split(" ")
         for maybe in line:
@@ -33,10 +35,12 @@ for line in xfile:
             maybe = maybe.replace(">",'')
             maybe = maybe.replace(";",'')
             maybe = maybe.replace(")",'')
+            maybe = maybe.replace("(",'')
             if "@" in maybe and maybe not in emails:
                 emails.append(maybe)
-for email in emails:
-    print (email)
+for email in sorted(emails):
+    email = email.strip()
+    if(email[0] != '@' and email[-1] != '@'): print (email)
   #print(line)
 #print("lines", ', '.join(str(num) for num in fromlines), 'start with "From: "')
 #print(linenum)
